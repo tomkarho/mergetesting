@@ -5,8 +5,10 @@ def isFeatureBranch(branchName) {return branchName =~ /^feature\/.*$/}
 timeout(10) {
     node('master') {
         withCredentials([
-            string(credentialsId: 'spUser', variable: 'SPUSER')]
-            ){
+            string(credentialsId: 'spUser', variable: 'SPUSER'),
+            string(credentialsId: 'spPswd', variable: 'SPSWD'),
+            string(credentialsId: 'spTenant', variable: 'SPTENANT')
+            ]){
             stage('Checkout') {
                 checkout scm
             }
@@ -24,8 +26,8 @@ timeout(10) {
                     sh """
                     pwsh deployment/createEnvironment.ps1 \
                     -spUser $SPUSER \
-                    -spPswd $spPswd \
-                    -spTenant $spTenant \
+                    -spPswd $SPPSWD \
+                    -spTenant $SPTENANT \
                     -resourceGroup $resourceGroup \
                     -webApp $webApp \
                     -envType $envType
