@@ -50,11 +50,9 @@ timeout(10) {
             """
         }
         stage('Test') {
-            withEnv(["CHROME_BIN=/usr/bin/chromium-browser"]){
-                sh """
-                    ng test --progress=false --watch false
-                """
-            }
+            sh """
+                echo "No tests here"
+            """
         }
         if(!isFeatureBranch(branch)) {
             stage('Deploy') {
