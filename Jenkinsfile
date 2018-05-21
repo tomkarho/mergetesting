@@ -17,7 +17,8 @@ timeout(10) {
         def resourceGroup = 'RG-TOKA'
         def envType = 'Dev'
 
-        stage('Environment') {
+        if(!isFeatureBranch(branch)) {
+            stage('Environment') {
             sh """
                 pwsh deployment/createEnvironment.ps1 \
                 -spUser $spUser \
@@ -28,7 +29,9 @@ timeout(10) {
                 -envType $envType
             """
             }
-        stage('Configure') {
+        }
+        if(!isFeatureBranch(branch)) {
+            stage('Configure') {
             sh """
                 pwsh deployment/configure.ps1 \
                 -environment $environment \
@@ -36,6 +39,7 @@ timeout(10) {
                 -resourceGroup $resourceGroup
             """
             }
+        }
         stage('Build') {
             // Requires @angular/cli preinstalled as global.
             // https://github.com/sass/node-sass/issues/1579 for this reason npm rebuild node-sass
@@ -50,12 +54,14 @@ timeout(10) {
                 echo "No tests here"
             """
         }
-        stage('Deploy') {
+        if(!isFeatureBranch(branch)) {
+            stage('Deploy') {
             sh """
                 pwsh deployment/deploy.ps1  \
                 -resourceGroup $resourceGroup  \
                 -webApp $webApp
             """
             }
+        }
     }
 }
