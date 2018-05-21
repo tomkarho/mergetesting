@@ -26,5 +26,4 @@ az webapp log config --name $webApp --resource-group $resourceGroup --applicatio
 
 az webapp deployment source config-local-git --name $webApp --resource-group $resourceGroup
 
-az webapp deployment slot create --name $webApp --resource-group $resourceGroup --slot stage
-az webapp deployment slot create --name $webApp --resource-group $resourceGroup --slot prod
+az webapp deployment slot create --name $webApp --resource-group $resourceGroup --slot staging
