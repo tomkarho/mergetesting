@@ -6,7 +6,7 @@ timeout(10) {
     node('master') {
         withCredentials([
             string(credentialsId: 'spUser', variable: 'SPUSER'),
-            string(credentialsId: 'spPswd', variable: 'SPSWD'),
+            string(credentialsId: 'spPswd', variable: 'SPPSWD'),
             string(credentialsId: 'spTenant', variable: 'SPTENANT')
             ]){
             stage('Checkout') {
