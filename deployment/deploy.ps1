@@ -35,4 +35,4 @@ Pop-Location
 
 Write-Host "https://$staging.azurewebsites.net"
 
-az webapp deployment slot swap  -g $resourceGroup -n $webApp --slot stage --target-slot production
+az webapp deployment slot swap  -g $resourceGroup -n $webApp --slot staging --target-slot production
