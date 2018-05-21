@@ -25,3 +25,6 @@ az webapp config set --name $webApp --resource-group $resourceGroup --always-on 
 az webapp log config --name $webApp --resource-group $resourceGroup --application-logging true --detailed-error-messages true --failed-request-tracing true --level verbose
 
 az webapp deployment source config-local-git --name $webApp --resource-group $resourceGroup
+
+az webapp deployment slot create --name $webApp --resource-group $resourceGroup --slot stage
+az webapp deployment slot create --name $webApp --resource-group $resourceGroup --slot prod

@@ -32,3 +32,5 @@ Push-Location "$PsScriptRoot/../dist/"
 Pop-Location
 
 Write-Host "https://$webappname.azurewebsites.net"
+
+az webapp deployment slot swap  -g $resourceGroup -n $webApp --slot stage --target-slot prod
