@@ -1,0 +1,61 @@
+#!/bin/env groovy
+
+def isFeatureBranch(branchName) {return branchName =~ /^feature\/.*$/}
+
+timeout(10) {
+    node('master') {
+        stage('Checkout') {
+            checkout scm
+        }
+
+        def branch = env.BRANCH_NAME;
+        def environment = isFeatureBranch(branch) ? 'master' : branch;
+        def spUser = ''
+        def spPswd = ''
+        def spTenant = ''
+        def webApp = "toka-mergetest-{environment}"
+        def resourceGroup = 'RG-TOKA'
+        def envType = 'Dev'
+
+        stage('Environment') {
+            sh """
+                pwsh deployment/createEnvironment.ps1 \
+                -spUser $spUser \
+                -spPswd $spPswd \
+                -spTenant $spTenant \
+                -resourceGroup $resourceGroup \
+                -webApp $webApp \
+                -envType $envType
+            """
+            }
+        stage('Configure') {
+            sh """
+                pwsh deployment/configure.ps1 \
+                -environment $environment \
+                -webApp $webApp \
+                -resourceGroup $resourceGroup
+            """
+            }
+        stage('Build') {
+            // Requires @angular/cli preinstalled as global.
+            // https://github.com/sass/node-sass/issues/1579 for this reason npm rebuild node-sass
+            sh """
+                npm install --unsafe-perm
+                npm rebuild --unsafe-perm node-sass
+                npm build --prod
+            """
+        }
+        stage('Test') {
+            sh """
+                echo "No tests here"
+            """
+        }
+        stage('Deploy') {
+            sh """
+                pwsh deployment/deploy.ps1  \
+                -resourceGroup $resourceGroup  \
+                -webApp $webApp
+            """
+            }
+    }
+}
