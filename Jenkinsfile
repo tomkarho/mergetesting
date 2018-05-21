@@ -13,7 +13,7 @@ timeout(10) {
         def spUser = ''
         def spPswd = ''
         def spTenant = ''
-        def webApp = "toka-mergetest"
+        def webApp = "toka-mergetest-{environment}"
         def resourceGroup = 'RG-TOKA'
         def envType = 'Dev'
 
