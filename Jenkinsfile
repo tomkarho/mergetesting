@@ -17,7 +17,7 @@ timeout(10) {
             def environment = isFeatureBranch(branch) ? 'master' : branch;
             def spPswd = "${env.spPswd}";
             def spTenant = "${env.spTenant}";
-            def webApp = "toka-mergetest-{environment}";
+            def webApp = "toka-mergetest-{$environment}";
             def resourceGroup = 'RG-TOKA';
             def envType = 'Dev';
 
