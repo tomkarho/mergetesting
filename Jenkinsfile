@@ -50,7 +50,7 @@ timeout(10) {
             sh """
             npm install --unsafe-perm
             npm rebuild --unsafe-perm node-sass
-            npm build --prod
+            npm run build --prod
             """
         }
         stage('Test') {
