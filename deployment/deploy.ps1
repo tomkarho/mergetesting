@@ -11,7 +11,8 @@ $staging = "$webApp-staging";
 $slot = "$webApp/slots/staging"
 
 $publishingProfile = az webapp deployment list-publishing-profiles  --resource-group $resourceGroup --name $slot --query "[].{Username:userName,Password:userPWD}|[0]" -o json | ConvertFrom-Json
-$gitDeploymentUrl = "https://$($publishingProfile.Username):$($publishingProfile.Password)@$($staging).scm.azurewebsites.net/$($staging).git"
+
+$gitDeploymentUrl = "https://$($publishingProfile.Username):$($publishingProfile.Password)@$($staging).scm.azurewebsites.net/$($webApp).git"
 
 
 Write-Host "Deploying to '$gitDeploymentUrl'"
