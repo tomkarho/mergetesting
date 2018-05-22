@@ -8,8 +8,10 @@ $ErrorActionPreference = "stop"
 
 Write-Host "Deploying environment for $webApp"
 
-$publishingProfile = az webapp deployment list-publishing-profiles  --resource-group $resourceGroup --name $webApp --query "[].{Username:userName,Password:userPWD}|[0]" -o json | ConvertFrom-Json
-$gitDeploymentUrl = "https://$($publishingProfile.Username):$($publishingProfile.Password)@$($webApp).scm.azurewebsites.net/$($webApp).git"
+$slot = "$webApp/slots/staging"
+
+$publishingProfile = az webapp deployment list-publishing-profiles  --resource-group $resourceGroup --name $slot --query "[].{Username:userName,Password:userPWD}|[0]" -o json | ConvertFrom-Json
+$gitDeploymentUrl = "https://$($publishingProfile.Username):$($publishingProfile.Password)@$($webApp).scm.azurewebsites.net/$($webApp)-staging.git"
 
 Write-Host "Deploying to '$gitDeploymentUrl'"
 
